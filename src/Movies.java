@@ -1,5 +1,5 @@
 
-public class movies {
+public class Movies {
 
 	private String movie;
 	private String rating;
@@ -37,13 +37,18 @@ public class movies {
 	}
 	
 	//constructor
-	public movies(String rating, String movie, String genre) {
+	public Movies(String rating, String movie, String genre) {
 		this.movie = movie;
 		this.rating = rating;
 		this.genre = genre;
 		numMovies++;
 	}
 	
-	
+	public String toString() {
+		return String.format("Movie title: %s%n"
+						   + "Genre: %s%n"
+						   + "Rating: %s%n"
+						   + "Ranking: ", this.movie, this.genre, this.rating);
+	}
 
 }
