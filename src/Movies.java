@@ -2,7 +2,7 @@
 public class Movies implements Comparable <Movies>{
 
 	private String movie;
-	private String rating;
+	private double rating;
 	private String genre;
 	private int rank; 
 	
@@ -21,11 +21,11 @@ public class Movies implements Comparable <Movies>{
 		this.movie = movie;
 	}
 
-	public String getRating() {
+	public double getRating() {
 		return rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 
@@ -42,7 +42,7 @@ public class Movies implements Comparable <Movies>{
 	}
 	
 	//constructor
-	public Movies(String rating, String movie, String genre, boolean isTemp) {
+	public Movies(double rating, String movie, String genre, boolean isTemp) {
 		if(isTemp) {
 			this.movie = movie;
 			this.rating = rating;
@@ -58,7 +58,7 @@ public class Movies implements Comparable <Movies>{
 	
 	public int compareTo(Movies m) {
 		double r1 = Double.parseDouble(this.rating.substring(0, this.rating.length()-1))*100;
-		double r2 = Double.parseDouble(m.rating.substring(0, m.rating.length()-1))*100;
+		double r2 = *100;
 		
 		return (int) (r2-r1);
 	}

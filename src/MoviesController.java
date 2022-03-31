@@ -10,14 +10,11 @@ public class MoviesController {
 			String line = "";
 			while ((line = in.readLine()) != null) {
 				StringTokenizer st = new StringTokenizer(line.trim());
-				if(st.countTokens() != 3) {
-					continue;
-				}
-				String rating = st.nextToken().trim();
+				String rating = st.nextToken();
+				double rate = Double.parseDouble(rating.substring(0, rating.length()-1));
 				if(rating.indexOf("%") != rating.length()-1) {
 					continue;
 				}
-				double d = Double.parseDouble(rating.substring(0, rating.length()));
 				String name = "";
 				int size = st.countTokens() - 1;
 				for (int i = 0; i < size; i++) {
@@ -28,10 +25,10 @@ public class MoviesController {
 				if(name == null || genre == null) {
 					continue;
 				}
-				movieList.add(new Movies(rating, name, genre, false));
+				movieList.add(new Movies(rate, name, genre, false));
 			}
 		} catch (NumberFormatException e){
-			
+			System.out.println("NumberFormatException");
 		}catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
@@ -46,7 +43,7 @@ public class MoviesController {
 			Collections.sort(movieList);
 			movieList.get(0).setRank(1);
 			for (int i = 1; i < movieList.size(); i++) {
-				if (movieList.get(i).getRating().equals(movieList.get(i - 1).getRating())) {
+				if (movieList.get(i).getRating() == movieList.get(i - 1).getRating()) {
 					movieList.get(i).setRank(i);
 				} else {
 					movieList.get(i).setRank(i + 1);
@@ -59,7 +56,7 @@ public class MoviesController {
 					Collections.sort(movieList, new compareTitle());
 					System.out.println("What movie title do you want to search by");
 					String title = sc.nextLine();
-					int index = Collections.binarySearch(movieList, new Movies(null, title, null, true),
+					int index = Collections.binarySearch(movieList, new Movies(0.0, title, null, true),
 							new compareTitle());
 					if (index > -1) {
 						System.out.println(movieList.get(index) + "\n");
@@ -70,7 +67,7 @@ public class MoviesController {
 					// you implement while loop to search for a chunk of the same genre and print
 					// them out!!!!!
 					Collections.sort(movieList, new compareGenre());
-					int index = Collections.binarySearch(movieList, new Movies(null, null, genre, true),
+					int index = Collections.binarySearch(movieList, new Movies(0.0, null, genre, true),
 							new compareGenre());
 					if (index >= 0) {
 						temp.add(movieList.get(index));
