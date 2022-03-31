@@ -1,16 +1,23 @@
 import java.io.*;
 import java.util.*;
 
-public class main {
+public class MoviesController {
 
 	public static void main(String args[]) {
 		ArrayList<Movies> movieList = new ArrayList<>();
 		try {
-			BufferedReader in = new BufferedReader(new FileReader("file.txt"));
+			BufferedReader in = new BufferedReader(new FileReader("movies.txt"));
 			String line = "";
 			while ((line = in.readLine()) != null) {
 				StringTokenizer st = new StringTokenizer(line.trim());
-				String rating = st.nextToken();
+				if(st.countTokens() != 3) {
+					continue;
+				}
+				String rating = st.nextToken().trim();
+				if(rating.indexOf("%") != rating.length()-1) {
+					continue;
+				}
+				double d = Double.parseDouble(rating.substring(0, rating.length()));
 				String name = "";
 				int size = st.countTokens() - 1;
 				for (int i = 0; i < size; i++) {
@@ -18,18 +25,24 @@ public class main {
 				}
 				name = name.trim();
 				String genre = st.nextToken();
+				if(name == null || genre == null) {
+					continue;
+				}
 				movieList.add(new Movies(rating, name, genre, false));
 			}
-
-		} catch (FileNotFoundException e) {
+		} catch (NumberFormatException e){
+			
+		}catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
 			System.out.println("IOException!!!!!");
 		}
 
+		ArrayList<Movies> temp = new ArrayList<>();
 		// main loop
 		Scanner sc = new Scanner(System.in);
 		while (true) {
+			temp.clear();
 			Collections.sort(movieList);
 			movieList.get(0).setRank(1);
 			for (int i = 1; i < movieList.size(); i++) {
@@ -56,6 +69,37 @@ public class main {
 					String genre = sc.nextLine();
 					// you implement while loop to search for a chunk of the same genre and print
 					// them out!!!!!
+					Collections.sort(movieList, new compareGenre());
+					int index = Collections.binarySearch(movieList, new Movies(null, null, genre, true),
+							new compareGenre());
+					if (index >= 0) {
+						temp.add(movieList.get(index));
+						int left = index - 1;
+						int right = index + 1;
+						while (left >= 0) {
+							if (movieList.get(left).getGenre().equalsIgnoreCase(genre)) {
+								temp.add(movieList.get(left));
+								left--;
+							} else {
+								break;
+							}
+						}
+						while (right < movieList.size()) {
+							if (movieList.get(right).getGenre().equalsIgnoreCase(genre)) {
+								temp.add(movieList.get(right));
+								right++;
+							} else {
+								break;
+							}
+						}
+						for (Movies m : temp) {
+							System.out.println(m + "\n");
+						}
+					} else {
+						System.out.println("CANNOT FIND BOZO");
+					}
+				} else if (choice.equals("exit")) {
+					break;
 				} else {
 					throw new NumberFormatException();
 				}
@@ -63,6 +107,7 @@ public class main {
 				System.out.println("Invalid input, re-enter");
 			}
 		}
+		sc.close();
 	}
 
 }
