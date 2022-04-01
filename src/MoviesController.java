@@ -42,18 +42,18 @@ public class MoviesController {
 		ArrayList<Movies> temp = new ArrayList<>();
 		// main loop
 		Scanner sc = new Scanner(System.in);
+		Collections.sort(movieList);
+		movieList.get(0).setRank(1);
+		for (int i = 1; i < movieList.size(); i++) {
+			if (movieList.get(i).getRating() == movieList.get(i - 1).getRating()) {
+				movieList.get(i).setRank(i);
+			} else {
+				movieList.get(i).setRank(i + 1);
+			}
+		}
 		while (true) {
 			// sorting the list first by rating and assigning ranking
 			temp.clear();
-			Collections.sort(movieList);
-			movieList.get(0).setRank(1);
-			for (int i = 1; i < movieList.size(); i++) {
-				if (movieList.get(i).getRating() == movieList.get(i - 1).getRating()) {
-					movieList.get(i).setRank(i);
-				} else {
-					movieList.get(i).setRank(i + 1);
-				}
-			}
 			System.out.println("Do you want to search by title or genre? (enter exit to exit the program)");
 			String choice = sc.nextLine();
 			// try and catch for invalid inputs

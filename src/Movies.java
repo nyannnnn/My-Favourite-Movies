@@ -58,10 +58,13 @@ public class Movies implements Comparable<Movies> {
 
 	//natural comparing method for sorting by rating
 	public int compareTo(Movies m) {
-		double r1 = this.rating * 100;
-		double r2 = this.rating * 100;
-
-		return (int) (r2 - r1);
+		if(m.rating == this.rating) {
+			return 0;
+		}
+		else if(m.rating < this.rating) {
+			return -1;
+		}
+		return 1;
 	}
 
 	//toString method for System.out.println();
