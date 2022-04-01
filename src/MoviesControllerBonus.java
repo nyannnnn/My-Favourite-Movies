@@ -1,3 +1,8 @@
+//******************************************************************
+//Name: Max Luo
+//Date: 4/1/2022
+//Description: This program reads a text file named movies.txt and searches for either the movie title or a list of movie genre and outputs it (bonus version)
+//******************************************************************
 import java.io.*;
 import java.util.*;
 
@@ -39,21 +44,24 @@ public class MoviesControllerBonus {
 			System.out.println("IOException!!!!!");
 		}
 
+		//sorting the array by rating first so it doesnt need to be sorted again
+		Collections.sort(movieList);
+		movieList.get(0).setRank(1);
+		for (int i = 1; i < movieList.size(); i++) {
+			if (movieList.get(i).getRating() == movieList.get(i - 1).getRating()) {
+				movieList.get(i).setRank(i);
+			} else {
+				movieList.get(i).setRank(i + 1);
+			}
+		}
 		ArrayList<Movies> temp = new ArrayList<>();
 		// main loop
 		Scanner sc = new Scanner(System.in);
 		while (true) {
-			// sorting the list first by rating and assigning ranking
 			temp.clear();
-			Collections.sort(movieList);
-			movieList.get(0).setRank(1);
-			for (int i = 1; i < movieList.size(); i++) {
-				if (movieList.get(i).getRating() == movieList.get(i - 1).getRating()) {
-					movieList.get(i).setRank(i);
-				} else {
-					movieList.get(i).setRank(i + 1);
-				}
-			}
+			boolean sortG = false;
+			boolean sortR = false;
+			boolean sortT = false;
 			System.out.println("Do you want to search by title or genre? (enter exit to exit the program)");
 			String choice = sc.nextLine();
 			// try and catch for invalid inputs
@@ -75,6 +83,11 @@ public class MoviesControllerBonus {
 							if (movieList.get(left).getMovie().equalsIgnoreCase(title)) {
 								temp.add(movieList.get(left));
 								left--;
+							}
+							if (movieList.get(left).getGenre().equals(movieList.get(left + 1).getGenre())) {
+								sortR = true;
+							} else if (movieList.get(left).getRating() == movieList.get(left + 1).getRating()) {
+								sortG = true;
 							} else {
 								break;
 							}
@@ -84,6 +97,11 @@ public class MoviesControllerBonus {
 							if (movieList.get(right).getMovie().equalsIgnoreCase(title)) {
 								temp.add(movieList.get(right));
 								right++;
+							}
+							if (movieList.get(right).getGenre().equals(movieList.get(right - 1).getGenre())) {
+								sortR = true;
+							} else if (movieList.get(right).getRating() == movieList.get(right - 1).getRating()) {
+								sortG = true;
 							} else {
 								break;
 							}
@@ -96,14 +114,26 @@ public class MoviesControllerBonus {
 							try {
 								// sorting by genre
 								if (option.equalsIgnoreCase("genre")) {
-									Collections.sort(temp, new compareGenre());
+									if(sortR) {
+										Collections.sort(temp);
+									}
+									else {
+										Collections.sort(temp, new compareGenre());
+									}
+									//outputting
 									for (Movies m : temp) {
 										System.out.println(m + "\n");
 									}
 								}
 								// sorting by rating
 								else if (option.equalsIgnoreCase("rating")) {
-									Collections.sort(temp);
+									if(sortG) {
+										Collections.sort(temp, new compareGenre());
+									}
+									else {
+										Collections.sort(temp);
+									}
+									//outputting
 									for (Movies m : temp) {
 										System.out.println(m + "\n");
 									}
@@ -136,7 +166,11 @@ public class MoviesControllerBonus {
 							if (movieList.get(left).getGenre().equalsIgnoreCase(genre)) {
 								temp.add(movieList.get(left));
 								left--;
-							} else {
+							} if (movieList.get(left).getMovie().equalsIgnoreCase(movieList.get(left + 1).getMovie())) {
+								sortR = true;
+							} else if (movieList.get(left).getRating() == movieList.get(left + 1).getRating()) {
+								sortT = true;
+							}else {
 								break;
 							}
 						}
@@ -145,7 +179,11 @@ public class MoviesControllerBonus {
 							if (movieList.get(right).getGenre().equalsIgnoreCase(genre)) {
 								temp.add(movieList.get(right));
 								right++;
-							} else {
+							} if (movieList.get(right).getMovie().equalsIgnoreCase(movieList.get(right - 1).getMovie())) {
+								sortR = true;
+							} else if (movieList.get(right).getRating() == movieList.get(right - 1).getRating()) {
+								sortT = true;
+							}else {
 								break;
 							}
 						}
@@ -157,14 +195,24 @@ public class MoviesControllerBonus {
 							try {
 								// sorting by title
 								if (option.equalsIgnoreCase("title")) {
-									Collections.sort(temp, new compareTitle());
+									if(sortR) {
+										Collections.sort(temp);
+									}
+									else {
+										Collections.sort(temp, new compareTitle());
+									}
 									for (Movies m : temp) {
 										System.out.println(m + "\n");
 									}
 								}
 								// sorting by rating
 								else if (option.equalsIgnoreCase("rating")) {
-									Collections.sort(temp);
+									if(sortT) {
+										Collections.sort(temp, new compareTitle());
+									}
+									else {
+										Collections.sort(temp);
+									}
 									for (Movies m : temp) {
 										System.out.println(m + "\n");
 									}

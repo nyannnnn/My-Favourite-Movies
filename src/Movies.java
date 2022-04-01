@@ -1,4 +1,8 @@
-
+//******************************************************************
+//Name: Max Luo
+//Date: 4/1/2022
+//Description: This class initializes all the static and instance varibles and enables data encapsulation
+//******************************************************************
 public class Movies implements Comparable<Movies> {
 
 	//initalizing variables
@@ -56,7 +60,9 @@ public class Movies implements Comparable<Movies> {
 		}
 	}
 
-	//natural comparing method for sorting by rating
+	// Description: natural sorting algorithm that compares two rating
+	// parameters: object movie m
+	// return: 0 if the ratings equal, -1 if it is smaller, and 1 if it is bigger
 	public int compareTo(Movies m) {
 		if(m.rating == this.rating) {
 			return 0;
@@ -67,7 +73,9 @@ public class Movies implements Comparable<Movies> {
 		return 1;
 	}
 
-	//toString method for System.out.println();
+	// Description: changed the default toString method
+	// parameters: nothing
+	// return: the formatted string output
 	public String toString() {
 		return String.format("Movie title: %s%n" + "Genre: %s%n" + "Rating: %s%%%n" + "Ranking: %d out of %d",
 				this.movie, this.genre, this.rating, this.rank, numMovies);

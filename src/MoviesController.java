@@ -1,3 +1,8 @@
+//******************************************************************
+//Name: Max Luo
+//Date: 4/1/2022
+//Description: This program reads a text file named movies.txt and searches for either the movie title or a list of movie genre and outputs it
+//******************************************************************
 import java.io.*;
 import java.util.*;
 
@@ -39,7 +44,7 @@ public class MoviesController {
 			System.out.println("IOException!!!!!");
 		}
 
-		ArrayList<Movies> temp = new ArrayList<>();
+		//sorting the array by rating first so it doesnt need to be sorted again
 		// main loop
 		Scanner sc = new Scanner(System.in);
 		Collections.sort(movieList);
@@ -51,8 +56,8 @@ public class MoviesController {
 				movieList.get(i).setRank(i + 1);
 			}
 		}
+		ArrayList<Movies> temp = new ArrayList<>();
 		while (true) {
-			// sorting the list first by rating and assigning ranking
 			temp.clear();
 			System.out.println("Do you want to search by title or genre? (enter exit to exit the program)");
 			String choice = sc.nextLine();

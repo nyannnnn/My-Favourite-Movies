@@ -33,5 +33,5 @@ hoooooooooooooooooooooooooooooooooooooooooooooooooooooo% hahah beeb
 40% ap cs happy
 50% ap cs happy
 60% ap cs happy
-90.0000000000000000001% 90plusabit number
-90.0000000000000001% 90plusalilbit number
+90.0001% 90plusabit number
+90.00000001% 90plusalilbit number
