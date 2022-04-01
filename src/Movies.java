@@ -1,14 +1,15 @@
 
-public class Movies implements Comparable <Movies>{
+public class Movies implements Comparable<Movies> {
 
+	//initalizing variables
 	private String movie;
 	private double rating;
 	private String genre;
-	private int rank; 
-	
+	private int rank;
+
 	private static int numMovies;
-	
-	//getters and setters
+
+	// getters and setters
 	public String getMovie() {
 		return movie;
 	}
@@ -16,7 +17,7 @@ public class Movies implements Comparable <Movies>{
 	public void setRank(int rank) {
 		this.rank = rank;
 	}
-	
+
 	public void setMovie(String movie) {
 		this.movie = movie;
 	}
@@ -40,34 +41,33 @@ public class Movies implements Comparable <Movies>{
 	public static int getNumMovies() {
 		return numMovies;
 	}
-	
-	//constructor
+
+	// constructor
 	public Movies(double rating, String movie, String genre, boolean isTemp) {
-		if(isTemp) {
+		if (isTemp) {
 			this.movie = movie;
 			this.rating = rating;
 			this.genre = genre;
-		}
-		else {
+		} else {
 			this.movie = movie;
 			this.rating = rating;
 			this.genre = genre;
 			numMovies++;
 		}
 	}
-	
+
+	//natural comparing method for sorting by rating
 	public int compareTo(Movies m) {
-		double r1 = Double.parseDouble(this.rating.substring(0, this.rating.length()-1))*100;
-		double r2 = *100;
-		
-		return (int) (r2-r1);
+		double r1 = this.rating * 100;
+		double r2 = this.rating * 100;
+
+		return (int) (r2 - r1);
 	}
-	
+
+	//toString method for System.out.println();
 	public String toString() {
-		return String.format("Movie title: %s%n"
-						   + "Genre: %s%n"
-						   + "Rating: %s%n"
-						   + "Ranking: %d out of %d", this.movie, this.genre, this.rating, this.rank, numMovies);
+		return String.format("Movie title: %s%n" + "Genre: %s%n" + "Rating: %s%%%n" + "Ranking: %d out of %d",
+				this.movie, this.genre, this.rating, this.rank, numMovies);
 	}
 
 }
