@@ -1,7 +1,7 @@
-84%%%%% The Batman Action
+84% The Batman Action
 9123 123 1123
 bob                     ha      
-60% Hotel Transylvania 4: Transformania Comedy
+60%                  Hotel Transylvania 4: Transformania                                 Comedy
 65% Scream Horror
 72% Jackass Forever Documentary
 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
@@ -13,25 +13,9 @@ hoooooooooooooooooooooooooooooooooooooooooooooooooooooo% hahah beeb
 65% Ambulance Action
 79% The Batman Action
 100% AnthonySin Romance
-90.2% ap math depression
-90.2% ap eng saddness
-72.5% ap chem depression
-100% ap cs happy
-0.0% ap school sad
-50.5% ap french mad
-1% my bad faker action
-70% ap math yes
-90.2% ap math depressio
-90.2% ap eng saddnes
-72.5% ap chem depressi
-100% ap cs happy
-0.0% ap school sa
-50.5% ap french ma
-1% my bad faker actio
-10% ap cs happy
-30% ap cs happy
-40% ap cs happy
-50% ap cs happy
-60% ap cs happy
-90.0001% 90plusabit number
-90.00000001% 90plusalilbit number
+90.0000000000001% 90plusalilbit number
+90.0000000001% 90plusabit number
+
+69% The Catman cringe
+69% The Catman notCringe     
+70% The catman cringe

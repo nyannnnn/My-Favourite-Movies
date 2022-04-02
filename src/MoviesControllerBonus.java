@@ -44,19 +44,19 @@ public class MoviesControllerBonus {
 			System.out.println("IOException!!!!!");
 		}
 
-		//sorting the array by rating first so it doesnt need to be sorted again
+		// sorting the array by rating first so it doesnt need to be sorted again
+		Scanner sc = new Scanner(System.in);
 		Collections.sort(movieList);
 		movieList.get(0).setRank(1);
 		for (int i = 1; i < movieList.size(); i++) {
 			if (movieList.get(i).getRating() == movieList.get(i - 1).getRating()) {
-				movieList.get(i).setRank(i);
+				movieList.get(i).setRank(movieList.get(i - 1).getRank());
 			} else {
 				movieList.get(i).setRank(i + 1);
 			}
 		}
 		ArrayList<Movies> temp = new ArrayList<>();
 		// main loop
-		Scanner sc = new Scanner(System.in);
 		while (true) {
 			temp.clear();
 			boolean sortG = false;
@@ -81,13 +81,14 @@ public class MoviesControllerBonus {
 						// looping the left boundary
 						while (left >= 0) {
 							if (movieList.get(left).getMovie().equalsIgnoreCase(title)) {
+								if (movieList.get(left).getGenre().equals(movieList.get(left + 1).getGenre())) {
+									sortR = true;
+								}
+								if (movieList.get(left).getRating() == movieList.get(left + 1).getRating()) {
+									sortG = true;
+								}
 								temp.add(movieList.get(left));
 								left--;
-							}
-							if (movieList.get(left).getGenre().equals(movieList.get(left + 1).getGenre())) {
-								sortR = true;
-							} else if (movieList.get(left).getRating() == movieList.get(left + 1).getRating()) {
-								sortG = true;
 							} else {
 								break;
 							}
@@ -95,59 +96,71 @@ public class MoviesControllerBonus {
 						// looping the right boundary
 						while (right < movieList.size()) {
 							if (movieList.get(right).getMovie().equalsIgnoreCase(title)) {
+								if (movieList.get(right).getGenre().equals(movieList.get(right - 1).getGenre())) {
+									sortR = true;
+								}
+								if (movieList.get(right).getRating() == movieList.get(right - 1).getRating()) {
+									sortG = true;
+								}
 								temp.add(movieList.get(right));
 								right++;
-							}
-							if (movieList.get(right).getGenre().equals(movieList.get(right - 1).getGenre())) {
-								sortR = true;
-							} else if (movieList.get(right).getRating() == movieList.get(right - 1).getRating()) {
-								sortG = true;
 							} else {
 								break;
 							}
 						}
 						// outputting duplicates
-						if (right != left) {
-							System.out.println(
-									"many duplicate results, what do you want to sort the results by? (Genre/Rating)");
-							String option = sc.nextLine();
-							try {
-								// sorting by genre
-								if (option.equalsIgnoreCase("genre")) {
-									if(sortR) {
-										Collections.sort(temp);
-									}
-									else {
-										Collections.sort(temp, new compareGenre());
-									}
-									//outputting
-									for (Movies m : temp) {
-										System.out.println(m + "\n");
-									}
-								}
-								// sorting by rating
-								else if (option.equalsIgnoreCase("rating")) {
-									if(sortG) {
-										Collections.sort(temp, new compareGenre());
-									}
-									else {
-										Collections.sort(temp);
-									}
-									//outputting
-									for (Movies m : temp) {
-										System.out.println(m + "\n");
-									}
+						if (temp.size() > 1) {
+							//xor to see if either sortR or sortT is true, but not both of them
+							if (sortR ^ sortG) {
+								if (sortG) {
+									Collections.sort(temp, new compareGenre());
 								} else {
-									throw new NumberFormatException();
+									Collections.sort(temp);
 								}
-							} catch (NumberFormatException e) {
-								System.out.println("Invalid input, re-enter");
+								for (Movies m : temp) {
+									System.out.println(m + "\n");
+								}
+							}
+
+							else {
+								System.out.println(
+										"many duplicate results, what do you want to sort the results by? (Genre/Rating)");
+								String option = sc.nextLine();
+								try {
+									// sorting by genre
+									if (option.equalsIgnoreCase("genre")) {
+										if (sortR) {
+											Collections.sort(temp);
+										}
+										if (sortG) {
+											Collections.sort(temp, new compareGenre());
+										}
+										// outputting
+										for (Movies m : temp) {
+											System.out.println(m + "\n");
+										}
+									}
+									// sorting by rating
+									else if (option.equalsIgnoreCase("rating")) {
+										Collections.sort(temp);
+										// outputting
+										for (Movies m : temp) {
+											System.out.println(m + "\n");
+										}
+									} else {
+										throw new NumberFormatException();
+									}
+								} catch (NumberFormatException e) {
+									System.out.println("Invalid input, re-enter");
+								}
 							}
 						} else {
 							for (Movies m : temp) {
 								System.out.println(m + "\n");
 							}
 						}
+					} else {
+						System.out.println("Title not found!");
 					}
 				} else if (choice.equalsIgnoreCase("genre")) {
 					System.out.println("What movie genre do you want to search by");
@@ -164,63 +177,71 @@ public class MoviesControllerBonus {
 						// looping the left boundary
 						while (left >= 0) {
 							if (movieList.get(left).getGenre().equalsIgnoreCase(genre)) {
+								if (movieList.get(left).getMovie()
+										.equalsIgnoreCase(movieList.get(left + 1).getMovie())) {
+									sortR = true;
+								}
+								if (movieList.get(left).getRating() == movieList.get(left + 1).getRating()) {
+									sortT = true;
+								}
 								temp.add(movieList.get(left));
 								left--;
-							} if (movieList.get(left).getMovie().equalsIgnoreCase(movieList.get(left + 1).getMovie())) {
-								sortR = true;
-							} else if (movieList.get(left).getRating() == movieList.get(left + 1).getRating()) {
-								sortT = true;
-							}else {
+							} else {
 								break;
 							}
 						}
 						// looping the right boundary
 						while (right < movieList.size()) {
 							if (movieList.get(right).getGenre().equalsIgnoreCase(genre)) {
+								if (movieList.get(right).getMovie()
+										.equalsIgnoreCase(movieList.get(right - 1).getMovie())) {
+									sortR = true;
+								}
+								if (movieList.get(right).getRating() == movieList.get(right - 1).getRating()) {
+									sortT = true;
+								}
 								temp.add(movieList.get(right));
 								right++;
-							} if (movieList.get(right).getMovie().equalsIgnoreCase(movieList.get(right - 1).getMovie())) {
-								sortR = true;
-							} else if (movieList.get(right).getRating() == movieList.get(right - 1).getRating()) {
-								sortT = true;
-							}else {
+							} else {
 								break;
 							}
 						}
 						// outputting duplicates
-						if (right != left) {
-							System.out.println(
-									"many duplicate results, what do you want to sort the results by? (Title/Rating)");
-							String option = sc.nextLine();
-							try {
-								// sorting by title
-								if (option.equalsIgnoreCase("title")) {
-									if(sortR) {
-										Collections.sort(temp);
-									}
-									else {
-										Collections.sort(temp, new compareTitle());
-									}
-									for (Movies m : temp) {
-										System.out.println(m + "\n");
-									}
-								}
-								// sorting by rating
-								else if (option.equalsIgnoreCase("rating")) {
-									if(sortT) {
-										Collections.sort(temp, new compareTitle());
-									}
-									else {
-										Collections.sort(temp);
-									}
-									for (Movies m : temp) {
-										System.out.println(m + "\n");
-									}
+						if (temp.size() > 1) {
+							//xor to see if either sortR or sortT is true, but not both of them
+							if (sortR ^ sortT) {
+								if (sortT) {
+									Collections.sort(temp, new compareTitle());
 								} else {
-									throw new NumberFormatException();
+									Collections.sort(temp);
 								}
-							} catch (NumberFormatException e) {
-								System.out.println("Invalid input, re-enter");
+								for (Movies m : temp) {
+									System.out.println(m + "\n");
+								}
+							} else {
+								System.out.println(
+										"many duplicate results, what do you want to sort the results by? (Title/Rating)");
+								String option = sc.nextLine();
+								try {
+									// sorting by title
+									if (option.equalsIgnoreCase("title")) {
+										Collections.sort(temp, new compareTitle());
+										for (Movies m : temp) {
+											System.out.println(m + "\n");
+										}
+									}
+									// sorting by rating
+									else if (option.equalsIgnoreCase("rating")) {
+										Collections.sort(temp);
+										for (Movies m : temp) {
+											System.out.println(m + "\n");
+										}
+									} else {
+										throw new NumberFormatException();
+									}
+								} catch (NumberFormatException e) {
+									System.out.println("Invalid input, re-enter");
+								}
 							}
 						} else {
 							for (Movies m : temp) {

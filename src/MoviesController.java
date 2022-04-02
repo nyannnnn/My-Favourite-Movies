@@ -24,12 +24,15 @@ public class MoviesController {
 				// if rate is not a double, then move onto next line
 				try {
 					rate = Double.parseDouble(rating.substring(0, rating.length() - 1));
+					if (!rating.substring(rating.length() - 1).equals("%")) {
+						throw new NumberFormatException();
+					}
 				} catch (NumberFormatException e) {
 					continue;
 				}
 				String name = "";
 				// reading in all tokens except for the last one for title
-				int size = st.countTokens() - 1;
+				int size = st.countTokens() - 1;	
 				for (int i = 0; i < size; i++) {
 					name += st.nextToken() + " ";
 				}
@@ -44,14 +47,14 @@ public class MoviesController {
 			System.out.println("IOException!!!!!");
 		}
 
-		//sorting the array by rating first so it doesnt need to be sorted again
+		// sorting the array by rating first so it doesnt need to be sorted again
 		// main loop
 		Scanner sc = new Scanner(System.in);
 		Collections.sort(movieList);
 		movieList.get(0).setRank(1);
 		for (int i = 1; i < movieList.size(); i++) {
 			if (movieList.get(i).getRating() == movieList.get(i - 1).getRating()) {
-				movieList.get(i).setRank(i);
+				movieList.get(i).setRank(movieList.get(i - 1).getRank());
 			} else {
 				movieList.get(i).setRank(i + 1);
 			}
@@ -73,6 +76,8 @@ public class MoviesController {
 							new compareTitle());
 					if (index > -1) {
 						System.out.println(movieList.get(index) + "\n");
+					} else {
+						System.out.println("Title not found!");
 					}
 				} else if (choice.equals("genre")) {
 					System.out.println("What movie genre do you want to search by");
@@ -86,7 +91,7 @@ public class MoviesController {
 						temp.add(movieList.get(index));
 						int left = index - 1;
 						int right = index + 1;
-						//looping the left boundary
+						// looping the left boundary
 						while (left >= 0) {
 							if (movieList.get(left).getGenre().equalsIgnoreCase(genre)) {
 								temp.add(movieList.get(left));
@@ -95,7 +100,7 @@ public class MoviesController {
 								break;
 							}
 						}
-						//looping the right boundary
+						// looping the right boundary
 						while (right < movieList.size()) {
 							if (movieList.get(right).getGenre().equalsIgnoreCase(genre)) {
 								temp.add(movieList.get(right));
